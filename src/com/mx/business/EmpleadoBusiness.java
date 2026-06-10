@@ -19,7 +19,7 @@ public class EmpleadoBusiness {
     }
     
     public Empleado getEmpleadoById(Long id) {
-        return empleadoRepository.findById(id);
+        return empleadoRepository.find("EmpleadoId", id).firstResult();
     }
 
     @Transactional
