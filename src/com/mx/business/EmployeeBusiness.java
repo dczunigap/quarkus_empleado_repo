@@ -7,6 +7,7 @@ import com.mx.repository.EmployeeRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.BadRequestException;
 
 @ApplicationScoped
 public class EmployeeBusiness {
@@ -28,7 +29,11 @@ public class EmployeeBusiness {
      * @return Employee found or null if not found.
      */
     public EmployeeEntity getEmployeeById(Long id) {
-        return employeeRepository.find("EmployeeId", id).firstResult();
+        if (id == null) {
+            throw new BadRequestException("ID not be null.");
+        }
+        return employeeRepository.find("EmployeeId", id)
+        .firstResult();
     }
 
     /**
@@ -40,12 +45,12 @@ public class EmployeeBusiness {
     public EmployeeEntity createEmployee(EmployeeEntity employee) {
         
         if (employeeRepository.find("EmployeeId", employee.EmployeeId).firstResult() != null) {
-            throw new RuntimeException("Ya existe un empleado con el ID: " + employee.EmployeeId);
+            throw new RuntimeException("An employee with ID " + employee.EmployeeId + " already exists.");
         }
 
         if (employee.Name == null || employee.LastName == null || employee.Department == null || 
             employee.Position == null || employee.HireDate == null || employee.Salary == null) {
-            throw new RuntimeException("Todos los campos son obligatorios para crear un empleado.");
+            throw new RuntimeException("All fields are required to create an employee.");
         }
 
         employeeRepository.persist(employee);
