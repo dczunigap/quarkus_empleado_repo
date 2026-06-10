@@ -28,19 +28,19 @@ public class EmployeeService {
 
     @GET
     public List<EmployeeEntity> getAll() {
-        return employeeBusiness.getAllEmpleados();
+        return employeeBusiness.getAllEmployees();
     }
 
     @GET
     @Path("/{id}")
     public EmployeeEntity getById(@PathParam("id") Long id) {
-        return employeeBusiness.getEmpleadoById(id);
+        return employeeBusiness.getEmployeeById(id);
     }
 
     @POST
     public Response create(EmployeeEntity employee) {
-        EmployeeEntity nuevoEmpleado = employeeBusiness.createEmpleado(employee);
-        return Response.status(Response.Status.CREATED).entity(nuevoEmpleado).build();
+        EmployeeEntity newEmployee = employeeBusiness.createEmployee(employee);
+        return Response.status(Response.Status.CREATED).entity(newEmployee).build();
     }
 
     @PATCH
@@ -52,7 +52,7 @@ public class EmployeeService {
     @DELETE
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id) {
-        employeeBusiness.deleteEmpleado(id);
+        employeeBusiness.deleteEmployee(id);
         return Response.noContent().build();
     }
 }

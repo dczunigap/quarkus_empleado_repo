@@ -15,62 +15,62 @@ public class EmployeeBusiness {
     private EmployeeRepository employeeRepository;
 
     /**
-     * Obtiene todos los empleados.
-     * @return Lista de empleados.
+     * Get all employees.
+     * @return List of employees.
      */
-    public List<EmployeeEntity> getAllEmpleados() {
+    public List<EmployeeEntity> getAllEmployees() {
         return employeeRepository.listAll();
     }
 
     /**
-     * Obtiene un empleado por su ID.
-     * @param id ID del empleado.
-     * @return Empleado encontrado o null si no se encuentra.
+     * Get an employee by their ID.
+     * @param id ID of the employee.
+     * @return Employee found or null if not found.
      */
-    public EmployeeEntity getEmpleadoById(Long id) {
+    public EmployeeEntity getEmployeeById(Long id) {
         return employeeRepository.find("EmployeeId", id).firstResult();
     }
 
     /**
-     * Crea un nuevo empleado.
-     * @param empleado Empleado a crear.
-     * @return Empleado creado.
+     * Create a new employee.
+     * @param employee Employee to create.
+     * @return Created employee.
      */
     @Transactional
-    public EmployeeEntity createEmpleado(EmployeeEntity empleado) {
+    public EmployeeEntity createEmployee(EmployeeEntity employee) {
         
-        if (employeeRepository.find("EmployeeId", empleado.EmployeeId).firstResult() != null) {
-            throw new RuntimeException("Ya existe un empleado con el ID: " + empleado.EmployeeId);
+        if (employeeRepository.find("EmployeeId", employee.EmployeeId).firstResult() != null) {
+            throw new RuntimeException("Ya existe un empleado con el ID: " + employee.EmployeeId);
         }
 
-        if (empleado.Name == null || empleado.LastName == null || empleado.Department == null || 
-            empleado.Position == null || empleado.HireDate == null || empleado.Salary == null) {
+        if (employee.Name == null || employee.LastName == null || employee.Department == null || 
+            employee.Position == null || employee.HireDate == null || employee.Salary == null) {
             throw new RuntimeException("Todos los campos son obligatorios para crear un empleado.");
         }
 
-        employeeRepository.persist(empleado);
-        return empleado;
+        employeeRepository.persist(employee);
+        return employee;
     }
 
     /**
-     * Actualiza un empleado existente.
-     * @param id ID del empleado a actualizar.
-     * @param empleado Empleado con los nuevos datos.
-     * @return Empleado actualizado o null si no se encuentra.
+     * Update an existing employee.
+     * @param id ID of the employee to update.
+     * @param employee Employee with the new data.
+     * @return Updated employee or null if not found.
      */
     @Transactional
-    public EmployeeEntity actualizarEmpleado(Long id, EmployeeEntity empleado) {
+    public EmployeeEntity actualizarEmpleado(Long id, EmployeeEntity employee) {
         EmployeeEntity existEmployee = employeeRepository.findById(id);
 
         if (existEmployee != null) {
             
-            existEmployee.EmployeeId = empleado.EmployeeId;
-            existEmployee.Name = empleado.Name;
-            existEmployee.LastName = empleado.LastName;
-            existEmployee.Department = empleado.Department;
-            existEmployee.Position = empleado.Position;
-            existEmployee.HireDate = empleado.HireDate;
-            existEmployee.Salary = empleado.Salary;
+            existEmployee.EmployeeId = employee.EmployeeId;
+            existEmployee.Name = employee.Name;
+            existEmployee.LastName = employee.LastName;
+            existEmployee.Department = employee.Department;
+            existEmployee.Position = employee.Position;
+            existEmployee.HireDate = employee.HireDate;
+            existEmployee.Salary = employee.Salary;
             return existEmployee;
         }
 
@@ -78,11 +78,11 @@ public class EmployeeBusiness {
     }
 
     /**
-     * Elimina un empleado existente.
-     * @param id ID del empleado a eliminar.
+     * Delete an existing employee.
+     * @param id ID of the employee to delete.
      */
     @Transactional
-    public void deleteEmpleado(Long id) {
+    public void deleteEmployee(Long id) {
         EmployeeEntity exists = employeeRepository.findById(id);
         try {
             if (exists != null) {
